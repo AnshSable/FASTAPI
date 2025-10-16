@@ -64,3 +64,26 @@ def get_transaction(transaction_id:int):
     raise HTTPException(status_code=404,detail="transaction not found")
 
 
+@app.get("/balance")
+
+def get_balance():
+    total_income = sum(t.amount for t in transactions_db if t.type == TransactionType.INCOME)
+    total_expenses = sum(t.amount for t in transactions_db if t.type == TransactionType.EXPENSE)
+
+    return {
+        "total_income":total_income,
+        "total_expenses":total_expenses,
+        "current_balance":total_income-total_expenses
+    }
+
+@app.get("/analytics/spending-by-category")
+
+def spending_by_category():
+    spending={}
+    for transaction in transactions_db:
+        if transaction.type ==TransactionType.EXPENSE:
+            if transaction.category not in spending:
+                spending[transaction.category]=0
+            spending[transaction.category]+= transaction.amount
+
+    return spending
