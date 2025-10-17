@@ -87,3 +87,28 @@ def spending_by_category():
             spending[transaction.category]+= transaction.amount
 
     return spending
+
+
+@app.get("/analytics/monthly-summary")
+
+def monthly_summary():
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+
+    monthly_income = 0
+    monthly_expenses = 0
+
+    for transaction in transactions_db:
+        if transaction.date.month == current_month and transaction.date.year == current_year:
+            if transaction.type == TransactionType.INCOME:
+                monthly_income += transaction.amount
+            elif transaction.type == TransactionType.EXPENSE:
+                monthly_expenses += transaction.amount
+
+    return {
+        "month": current_month,
+        "year": current_year,
+        "monthly_income": monthly_income,
+        "monthly_expenses": monthly_expenses,
+        "monthly_balance":monthly_income-monthly_expenses
+    }
