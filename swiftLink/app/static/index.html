@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftLink - URL Shortener</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔗 SwiftLink</h1>
+            <p>Fast and simple URL shortening</p>
+        </header>
+
+        <main>
+            <!-- URL Shortening Form -->
+            <div class="card">
+                <h2>Shorten Your URL</h2>
+                <form id="shortenForm">
+                    <div class="form-group">
+                        <label for="original_url">Long URL *</label>
+                        <input type="url" id="original_url" name="original_url" 
+                               placeholder="https://example.com/very-long-url" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="custom_code">Custom Code (optional)</label>
+                        <input type="text" id="custom_code" name="custom_code" 
+                               placeholder="mycustomlink" pattern="[A-Za-z0-9]{3,}">
+                        <small>Minimum 3 characters, letters and numbers only</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="title">Title (optional)</label>
+                        <input type="text" id="title" name="title" 
+                               placeholder="My Awesome Link">
+                    </div>
+                    
+                    <button type="submit" id="shortenBtn">Shorten URL</button>
+                </form>
+            </div>
+
+            <!-- Result Section -->
+            <div class="card result-card" id="resultCard" style="display: none;">
+                <h2>🎉 Your Short URL is Ready!</h2>
+                <div class="result">
+                    <div class="short-url">
+                        <input type="text" id="shortUrlOutput" readonly>
+                        <button onclick="copyToClipboard()" id="copyBtn">Copy</button>
+                    </div>
+                    <div class="url-info">
+                        <p><strong>Original URL:</strong> <span id="originalUrlOutput"></span></p>
+                        <p><strong>Clicks:</strong> <span id="clicksOutput">0</span></p>
+                        <p><strong>Created:</strong> <span id="createdAtOutput"></span></p>
+                    </div>
+                </div>
+                <button onclick="resetForm()" class="secondary-btn">Shorten Another URL</button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Shortening your URL...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div class="error-card" id="errorCard" style="display: none;">
+                <h3>❌ Error</h3>
+                <p id="errorMessage"></p>
+                <button onclick="hideError()" class="secondary-btn">Try Again</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by FastAPI</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
